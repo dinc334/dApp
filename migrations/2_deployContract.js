@@ -2,5 +2,6 @@
 var dApp = artifacts.require("./dApp.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(dApp);
+	// second arguments for contructor
+	deployer.deploy(dApp, 1000000);
 };

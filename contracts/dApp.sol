@@ -1,15 +1,41 @@
 pragma solidity ^0.4.19;
 
-/**
- * The contractName contract does this and that...
- */
 contract dApp {
 
-	// set the tokens
 	uint256 public totalSupply;
-
+	string public name = "dApp Token";
+	string public symbol = "dApp";
+	string public standart = "dApp v0.1";
+	// mapping is like assciate array (key = address, value = uint)
+	mapping(address => uint256) public balanceOf;
+	
+	// part of Erc20 standart
+	event Transfer(
+		address indexed _from,
+		address indexed _to,
+		uint256 _value
+	);
+	 
 	// constructor
-	function dApp () public {
-		totalSupply = 1000000;
-	}		
+	// undersocre = for var that are availeble inside current function (local vars)
+	function dApp (uint256 _initialSupply) public {
+		// msg.sender - key,
+		// msg - global variable
+		// msg.sender - address that deploy a contact 
+		balanceOf[msg.sender] = _initialSupply;
+		totalSupply = _initialSupply;
+	}
+
+	function transfer (address _to, uint256 _value) public returns(bool success) {
+		// if it falls, then stop program, if true - then run next
+		require(balanceOf[msg.sender] > 0);
+
+		balanceOf[msg.sender] -= _value;
+		balanceOf[_to] += _value;
+		
+		Transfer(msg.sender, _to, _value);
+		
+		return true;
+	}
+	
 }
