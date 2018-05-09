@@ -1,5 +1,6 @@
-var Migrations = artifacts.require("./Migrations.sol");
+var dApp = artifacts.require("./dApp.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Migrations);
+	// second arguments for contructor
+	deployer.deploy(dApp, 1000000);
 };

@@ -32,7 +32,7 @@ contract('dApp', (accounts)=>{
 		})
 	})
 
-	it('check transer function', function() {
+	it('check tranfser function', function() {
     return dApp.deployed().then(function(instance) {
       tokenInstance = instance;
       // Test `require` statement first by transferring something larger than the sender's balance
