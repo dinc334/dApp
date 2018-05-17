@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Very small App</title>
+	<script type="text/javascript" src = 'js/web3.min.js'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+</head>
+<body>
+	<h2>Tests with dincCoin smart Contract</h2>
+	<div class = 'name'></div>
+	<div class = 'totalSupply'></div>
+	<form>
+		<input type="text" name = 'address' id='address' placeholder="address">
+		<input type="text" name = 'value' id='value' placeholder="value">
+	</form>
+
+	<button class='button'>Send Tokens</button>
+
+
+	<pre class='output'></pre>
+
+	<script type="text/javascript">
+		var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var instance = web3.eth.contract([{"constant":false,"inputs":[{"name":"receiver","type":"address"},{"name":"amount","type":"uint256"}],"name":"send","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Sent","type":"event"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]);
+		// write contract address
+		var finalInstance = instance.at('0x171da3b8399487fb919045b87a4e2fb739feb776');
+
+		console.log(finalInstance.balances('0x8E75df51b3A76c0F68816a9Ba37fcA0C8D156019'))
+		$('.name').html('<p>Token Name is: '+finalInstance.name()+'</p>');
+		$('.totalSupply').html('<p>Total Supply  is: '+finalInstance.totalSupply()+'</p>');
+		$('.button').click(()=>{
+			let data = $('form').serializeArray();
+			let address = data[0].value;
+			let value = data[1].value;
+			finalInstance.send(address,value);
+			console.log(finalInstance.balances(address))
+			$('.output').html(finalInstance.balances(address).c)
+		})
+
+
+	</script>
+</body>
+</html>
